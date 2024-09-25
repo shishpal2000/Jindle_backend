@@ -24,7 +24,11 @@ mongoose.connect(process.env.MONGO_URI)
     .catch(err => console.error('MongoDB connection error:', err));
 
 // Middleware
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:3000',
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+}));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -40,7 +44,7 @@ app.use('/api/contact', contactRoutes);
 app.use('/api/contactinfo', contactInfoRoutes);
 app.use('/api/emailtemp', emialTempRoutes);
 
-app.use(bodyParser.json({ limit: '20mb' })); // Increase JSON limit if needed
+app.use(bodyParser.json({ limit: '20mb' })); 
 app.use(bodyParser.urlencoded({ limit: '20mb', extended: true }));
 
 module.exports = app;
